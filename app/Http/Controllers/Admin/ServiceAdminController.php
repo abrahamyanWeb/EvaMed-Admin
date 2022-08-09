@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServiceCategory;
+use App\Models\ServiceCategoryLists;
 use App\Models\Services;
 use App\Models\StaffDoctors;
 use Illuminate\Http\Request;
@@ -20,9 +21,11 @@ class ServiceAdminController extends Controller
     {
         $services = Services::all();
         $services_categorys = ServiceCategory::all();
+        $services_categorys_lists = ServiceCategoryLists::all();
         return view('Admin.Service.index' , [
             'services'=>$services,
-            'services_categorys'=>$services_categorys
+            'services_categorys'=>$services_categorys,
+            'services_categorys_lists'=>$services_categorys_lists
         ]);
     }
 
@@ -62,6 +65,20 @@ class ServiceAdminController extends Controller
         $input = $request->all();
 
         ServiceCategory::create($input);
+        return redirect()->route('Admin.service')
+            ->with('success','Product created successfully.');
+    }
+    public function createCategoryLists(Request $request)
+    {
+        $request->validate([
+            'service_category_list_am' => 'required',
+            'service_category_list_ru' => 'required',
+            'service_category_list_en' => 'required',
+            'service_category_list_unique'=>'required'
+        ]);
+        $input = $request->all();
+
+        ServiceCategoryLists::create($input);
         return redirect()->route('Admin.service')
             ->with('success','Product created successfully.');
     }
@@ -111,6 +128,15 @@ class ServiceAdminController extends Controller
             'services_categorys'=>$services_categorys
         ]);
     }
+    public function editCategoryLists($id)
+    {
+
+        $services_categorys_lists = ServiceCategoryLists::find($id);
+        return view('Admin.Service.editCategoryLists' , [
+
+            'services_categorys_lists'=>$services_categorys_lists
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -154,6 +180,18 @@ class ServiceAdminController extends Controller
         $services_categorys -> save();
         return redirect()->route('Admin.service');
     }
+    public function updateCategoryLists(Request $request, $id)
+    {
+        $services_categorys_lists = ServiceCategoryLists::find($id);
+
+        $services_categorys_lists -> service_category_list_am = $request->service_category_list_am;
+        $services_categorys_lists -> service_category_list_ru = $request->service_category_list_ru;
+        $services_categorys_lists -> service_category_list_en = $request-> service_category_list_en;
+        $services_categorys_lists -> service_category_list_unique = $request->service_category_list_unique;
+
+        $services_categorys_lists -> save();
+        return redirect()->route('Admin.service');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -174,6 +212,12 @@ class ServiceAdminController extends Controller
     {
         $services_categorys = ServiceCategory::find($id);
         $services_categorys -> delete();
+        return back();
+    }
+    public function destroyCategoryLists($id)
+    {
+        $services_categorys_lists = ServiceCategoryLists::find($id);
+        $services_categorys_lists -> delete();
         return back();
     }
 }
