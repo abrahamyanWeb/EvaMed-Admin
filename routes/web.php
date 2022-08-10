@@ -13,6 +13,10 @@ Route::group(['prefix'=>'/Eva_Clinic_Admin','namespace' => 'Admin', 'middleware'
     });
     Route::group(['prefix'=>'/About','namespace' => 'AboutAdmin'] , function (){
         Route::get('/' , [\App\Http\Controllers\Admin\AboutAdminController::class,'index'])->name('Admin.about');
+        Route::post('/create' , [\App\Http\Controllers\Admin\AboutAdminController::class,'create'])->name('Admin.about.create');
+        Route::get('/edit/{id}' , [\App\Http\Controllers\Admin\AboutAdminController::class,'edit'])->name('Admin.about.edit');
+        Route::put('/update/{id}' , [\App\Http\Controllers\Admin\AboutAdminController::class,'update'])->name('Admin.about.update');
+        Route::delete('/destroy/{id}' , [\App\Http\Controllers\Admin\AboutAdminController::class,'destroy'])->name('Admin.about.destroy');
 
     });
     Route::group(['prefix'=>'/Career','namespace' => 'CareerAdmin'] , function (){

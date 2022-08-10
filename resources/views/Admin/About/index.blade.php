@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-12 for-forms">
                 <form
-                    action="{{ route('') }}"
+                    action="{{ route('Admin.about.create') }}"
                     method="post"
                     class="w-100 admin-add-form"
                     enctype="multipart/form-data"
@@ -59,6 +59,47 @@
                     <button type="submit" id="new_btn" class="btn-dark ms-0 me-0 form-control">ADD</button>
                 </form>
             </div>
+            <div class="col-md-12">
+                <div class="container" id="section_for_posts">
+                    <div class="row" id="row_for_posts">
+                        @foreach($abouts as $about)
+                            <div class="col-md-3" id="col_for_posts">
+                                <div class="for_content">
+                                    <div class="for_img">
+                                        <img
+                                            src="{{ asset('/image/'.$about -> about_image) }}"
+                                            class="img-fluid"
+                                            alt="{{ $about -> about_desc_am }}"
+                                        >
+                                    </div>
+                                    <div class="for_name">
+                                        <p>{{ $about -> about_directory }}</p>
+                                        <p>{{ $about -> about_desc_am }}</p>
+                                        <p>{{ $about -> about_desc_ru }}</p>
+                                        <p>{{ $about -> about_desc_en }}</p>
+                                    </div>
+                                    <div class="for_buttons">
+                                        <a
+                                            class="edit_btn"
+                                            href="{{ route('Admin.about.edit',$about->id) }}"
+                                        >
+                                            Edit
+                                        </a>
+                                        <form
+                                            action="{{ route('Admin.about.destroy' , $about->id) }}"
+                                            method="POST"
+                                            enctype="multipart/form-data"
+                                        >
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger del_btn">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                                    @endforeach
+                                </div>
+                            </div>
         </div>
     </div>
 @endsection
