@@ -10,6 +10,15 @@ Route::get('/', function () {
 Route::group(['prefix'=>'/Eva_Clinic_Admin','namespace' => 'Admin', 'middleware' => 'auth'] , function (){
     Route::group(['prefix'=>'/','namespace' => 'HomeAdmin'] , function (){
         Route::get('/' , [\App\Http\Controllers\Admin\HomeAdminController::class,'index'])->name('Admin.home');
+        Route::post('/create' , [\App\Http\Controllers\Admin\HomeAdminController::class,'create'])->name('Admin.home.create');
+        Route::get('/edit/{id}' , [\App\Http\Controllers\Admin\HomeAdminController::class,'edit'])->name('Admin.home.edit');
+        Route::put('/update/{id}' , [\App\Http\Controllers\Admin\HomeAdminController::class,'update'])->name('Admin.home.update');
+        Route::delete('/destroy/{id}' , [\App\Http\Controllers\Admin\HomeAdminController::class,'destroy'])->name('Admin.home.destroy');
+
+        Route::post('/createData' , [\App\Http\Controllers\Admin\HomeAdminController::class,'createData'])->name('Admin.home.createData');
+        Route::get('/editData/{id}' , [\App\Http\Controllers\Admin\HomeAdminController::class,'editData'])->name('Admin.home.editData');
+        Route::put('/updateData/{id}' , [\App\Http\Controllers\Admin\HomeAdminController::class,'updateData'])->name('Admin.home.updateData');
+        Route::delete('/destroyData/{id}' , [\App\Http\Controllers\Admin\HomeAdminController::class,'destroyData'])->name('Admin.home.destroyData');
     });
     Route::group(['prefix'=>'/About','namespace' => 'AboutAdmin'] , function (){
         Route::get('/' , [\App\Http\Controllers\Admin\AboutAdminController::class,'index'])->name('Admin.about');
